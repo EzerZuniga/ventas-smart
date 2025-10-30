@@ -73,7 +73,7 @@
             <div class="flex items-center justify-between h-16 px-4 bg-gray-900">
                 <div class="flex items-center">
                     <img class="h-8 w-8 rounded-lg" src="{{ asset('assets/img/icon.png') }}" alt="Logo">
-                    <span class="ml-3 text-white font-bold text-lg">Ventas Smart</span>
+                    <span class="ml-3 text-white font-bold text-lg">Minimarket Runay - Cusco</span>
                 </div>
                 <button @click="sidebarOpen = false" class="lg:hidden text-gray-400 hover:text-white">
                     <i class="fas fa-times"></i>
@@ -108,7 +108,7 @@
             <!-- Sidebar header -->
             <div class="flex items-center h-16 px-4 bg-gray-900">
                 <img class="h-8 w-8 rounded-lg" src="{{ asset('assets/img/icon.png') }}" alt="Logo">
-                <span class="ml-3 text-white font-bold text-lg">Ventas Smart</span>
+                <span class="ml-3 text-white font-bold text-lg">Minimarket Runay - Cusco</span>
             </div>
 
             <!-- Navigation -->
