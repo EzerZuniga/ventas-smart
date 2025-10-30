@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "public/index.php",
+      "use": "@vercel/php@0.6.0"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(css|js|images|assets)/(.*)",
+      "dest": "public/$1/$2"
+    },
+    {
+      "src": "/build/(.*)",
+      "dest": "public/build/$1"
+    },
+    {
+      "src": "/storage/(.*)",
+      "dest": "public/storage/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "public/index.php"
+    }
+  ],
+  "env": {
+    "APP_ENV": "production",
+    "APP_DEBUG": "false",
+    "APP_URL": "https://ventas-smart.vercel.app",
+    "LOG_CHANNEL": "stderr",
+    "SESSION_DRIVER": "cookie"
+  },
+  "buildCommand": "composer install --optimize-autoloader --no-dev && npm install && npm run build"
+}
