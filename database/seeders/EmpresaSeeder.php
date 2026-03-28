@@ -14,8 +14,8 @@ class EmpresaSeeder extends Seeder
     public function run(): void
     {
         Empresa::insert([
-            'nombre' => 'SK SAC',
-            'propietario' => 'Sak Code',
+            'nombre' => 'Ezer Zuniga',
+            'propietario' => 'Ezer Zuniga',
             'ruc' => '1089674538',
             'porcentaje_impuesto' => '15',
             'abreviatura_impuesto' => 'IGV',

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Sistema de ventas profesional - Acceso seguro al panel de administración" />
-    <meta name="author" content="Ezer Zuniga" />
+    <meta name="author" content="Ventas Smart" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Iniciar Sesión - Ventas Smart</title>
     
@@ -195,10 +195,7 @@
             <!-- Footer -->
             <div class="text-center">
                 <p class="text-sm text-white/60">
-                    © {{ date('Y') }} Ventas Smart. Desarrollado por 
-                    <a href="https://github.com/EzerZuniga" target="_blank" class="text-white hover:text-white/80 font-medium">
-                        Ezer Zuniga
-                    </a>
+                    © {{ date('Y') }} Ventas Smart. Todos los derechos reservados.
                 </p>
             </div>
         </div>

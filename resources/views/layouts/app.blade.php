@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Sistema de ventas de abarrotes" />
-    <meta name="author" content="SakCode" />
+    <meta name="author" content="Ezer Zuniga" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Sistema ventas - @yield('title')</title>
     @stack('css-datatable')

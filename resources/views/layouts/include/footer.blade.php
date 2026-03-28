@@ -2,12 +2,12 @@
     <div class="container-fluid px-4">
         <div class="d-flex align-items-center justify-content-between small">
             <div class="text-muted">
-                Copyright &copy; Your Website 2022 - Laravel v.{{app()->version()}} - PHP v.{{phpversion()}}
+                Copyright &copy; {{ date('Y') }} Ventas Smart. Todos los derechos reservados.
             </div>
             <div>
-                <a href="#">Privacy Policy</a>
+                <a href="{{ route('legal.privacy') }}">Política de privacidad</a>
                 &middot;
-                <a href="#">Terms &amp; Conditions</a>
+                <a href="{{ route('legal.terms') }}">Términos &amp; condiciones</a>
             </div>
         </div>
     </div>

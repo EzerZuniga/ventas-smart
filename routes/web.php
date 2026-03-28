@@ -17,6 +17,7 @@ use App\Http\Controllers\loginController;
 use App\Http\Controllers\logoutController;
 use App\Http\Controllers\marcaController;
 use App\Http\Controllers\MovimientoController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\presentacioneController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\profileController;
@@ -39,6 +40,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [homeController::class, 'index'])->name('panel');
+Route::get('/acerca-de', [PageController::class, 'about'])->name('about.index');
+Route::get('/politica-de-privacidad', [PageController::class, 'privacy'])->name('legal.privacy');
+Route::get('/terminos-y-condiciones', [PageController::class, 'terms'])->name('legal.terms');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::resource('categorias', categoriaController::class)->except('show');

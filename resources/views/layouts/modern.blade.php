@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Sistema de ventas profesional - Gestión completa de inventarios y ventas" />
-    <meta name="author" content="Ezer Zuniga" />
+    <meta name="author" content="Ventas Smart" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Sistema de Ventas') - Ventas Smart</title>
     
@@ -244,10 +244,7 @@
                 <div class="px-4 sm:px-6 lg:px-8 py-4">
                     <div class="flex justify-between items-center">
                         <p class="text-sm text-gray-500">
-                            © {{ date('Y') }} Ventas Smart. Desarrollado por 
-                            <a href="https://github.com/EzerZuniga" target="_blank" class="text-primary-600 hover:text-primary-700 font-medium">
-                                Ezer Zuniga
-                            </a>
+                            © {{ date('Y') }} Ventas Smart. Todos los derechos reservados.
                         </p>
                         <p class="text-sm text-gray-500">
                             Versión 2.0
