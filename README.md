@@ -1,83 +1,94 @@
 # Ventas Smart
 
-Sistema web de gestión comercial construido con Laravel para administrar ventas, compras, inventario, caja y usuarios con control de permisos.
+![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8+-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-Frontend-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-2ea44f?style=for-the-badge)
 
-## Tabla de contenido
+Sistema web de gestion comercial construido con Laravel para administrar ventas, compras, inventario, caja y usuarios con control de permisos por rol.
 
-1. [Resumen funcional](#resumen-funcional)
-2. [Stack tecnológico](#stack-tecnologico)
-3. [Requisitos](#requisitos)
-4. [Instalación](#instalacion)
-5. [Ejecución en desarrollo](#ejecucion-en-desarrollo)
-6. [Credenciales iniciales](#credenciales-iniciales)
-7. [Comandos útiles](#comandos-utiles)
-8. [Arquitectura y comportamiento del dominio](#arquitectura-y-comportamiento-del-dominio)
-9. [Despliegue](#despliegue)
-10. [Testing](#testing)
-11. [Licencia](#licencia)
+---
 
-## Resumen funcional
+## Tabla de contenidos
 
-El sistema incluye:
+1. [Caracteristicas clave](#caracteristicas-clave)
+2. [Arquitectura y stack](#arquitectura-y-stack)
+3. [Comenzar](#comenzar)
+4. [Configuracion de entorno](#configuracion-de-entorno)
+5. [Ejecucion local](#ejecucion-local)
+6. [Colas, scheduler y backup](#colas-scheduler-y-backup)
+7. [Credenciales iniciales](#credenciales-iniciales)
+8. [Scripts y comandos utiles](#scripts-y-comandos-utiles)
+9. [Estructura del proyecto](#estructura-del-proyecto)
+10. [Flujos de negocio](#flujos-de-negocio)
+11. [Despliegue](#despliegue)
+12. [Testing](#testing)
+13. [Contribucion](#contribucion)
+14. [Licencia](#licencia)
 
-- Gestión de catálogo: categorías, marcas, presentaciones y productos.
-- Gestión de terceros: clientes, proveedores y empleados.
-- Flujo de compras y ventas con detalle por producto.
-- Control de inventario y kardex.
-- Gestión de caja y movimientos (apertura, ventas, retiros y cierre).
-- Exportación de comprobante de venta en PDF.
-- Exportación de ventas a Excel (job asíncrono).
-- Importación de empleados desde Excel.
-- Notificaciones en base de datos.
-- Registro de actividad (auditoría funcional).
-- Páginas públicas: inicio, acerca de, política de privacidad, términos y condiciones.
+---
 
-## Stack tecnologico
+## Caracteristicas clave
 
-- Backend: `PHP 8.2+`, `Laravel 12`, `Eloquent ORM`.
-- Frontend: `Blade`, `Vite`, `Tailwind CSS`, `Alpine.js`.
-- Base de datos: `MySQL` (recomendado en desarrollo y producción).
-- Autorización: `spatie/laravel-permission` (roles y permisos).
-- Reportes:
-  - `barryvdh/laravel-dompdf` para PDF.
-  - `maatwebsite/excel` para import/export Excel.
-- Colas y tareas:
-  - Jobs para exportación y envío de comprobante.
-  - Scheduler con backup diario de base de datos.
+- Gestion de catalogo: categorias, marcas, presentaciones y productos.
+- Gestion de terceros: clientes, proveedores y empleados.
+- Flujo de compras y ventas con detalle por producto y movimientos asociados.
+- Control de inventario y kardex por eventos de dominio.
+- Gestion de caja y movimientos (apertura, ventas, retiros y cierre).
+- Exportacion de comprobante de venta en PDF.
+- Exportacion de ventas a Excel mediante job asincrono.
+- Importacion de empleados desde Excel.
+- Notificaciones en base de datos para procesos asincronos.
+- Registro de actividad funcional (auditoria) en modulo dedicado.
+- Paginas publicas: inicio, acerca de, politica de privacidad, terminos y condiciones.
 
-## Requisitos
+## Arquitectura y stack
 
-- `PHP >= 8.2`
-- `Composer`
-- `Node.js >= 20` y `npm`
-- `MySQL` y cliente `mysqldump` disponible en PATH (para backup)
+| Capa | Tecnologias | Descripcion |
+| --- | --- | --- |
+| Backend | PHP 8.2+, Laravel 12, Eloquent ORM | MVC, validaciones con Form Requests, servicios y reglas de negocio por dominio. |
+| Frontend | Blade, Vite, Tailwind CSS, Alpine.js | Vistas server-side con componentes reutilizables y assets modernos. |
+| Seguridad | spatie/laravel-permission | Control de acceso por roles y permisos granulares. |
+| Reportes | barryvdh/laravel-dompdf, maatwebsite/excel | Generacion de PDF e import/export Excel. |
+| Integraciones internas | Events, Listeners, Observers, Jobs, Notifications | Desacopla procesos como kardex, inventario, caja y envio de comprobantes. |
+| Persistencia | MySQL | Base recomendada para desarrollo y produccion. |
 
-## Instalacion
+## Comenzar
 
-1. Clonar el repositorio.
+### Requisitos previos
+
+- PHP `>= 8.2`
+- Composer
+- Node.js `>= 20` y npm
+- MySQL
+- `mysqldump` disponible en `PATH` (requerido para backups)
+
+### Instalacion
 
 ```bash
+# 1. Clonar repositorio
 git clone <URL_DEL_REPOSITORIO>
 cd ventas-smart
-```
 
-2. Instalar dependencias.
-
-```bash
+# 2. Instalar dependencias
 composer install
 npm install
-```
 
-3. Configurar entorno.
-
-```bash
+# 3. Preparar entorno
 cp .env.example .env
 php artisan key:generate
+
+# 4. Migrar y sembrar datos iniciales
+php artisan migrate --seed
+
+# 5. Publicar storage para archivos publicos
+php artisan storage:link
 ```
 
-4. Editar `.env` con tu configuración de base de datos y correo.
+## Configuracion de entorno
 
-Variables mínimas recomendadas:
+Configura `.env` con tus valores de base de datos y correo. Base recomendada:
 
 ```env
 APP_NAME="Ventas Smart"
@@ -93,47 +104,57 @@ DB_USERNAME=root
 DB_PASSWORD=
 
 QUEUE_CONNECTION=database
+
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
 ```
 
-5. Ejecutar migraciones y seeders.
+## Ejecucion local
+
+Levanta el proyecto en terminales separadas:
 
 ```bash
-php artisan migrate --seed
-```
-
-6. Crear enlace simbólico para archivos públicos de storage.
-
-```bash
-php artisan storage:link
-```
-
-## Ejecucion en desarrollo
-
-Levanta el proyecto con dos terminales:
-
-Terminal 1 (backend):
-
-```bash
+# Terminal 1: backend Laravel
 php artisan serve
-```
 
-Terminal 2 (assets frontend):
-
-```bash
+# Terminal 2: assets frontend
 npm run dev
 ```
 
-Si usas `QUEUE_CONNECTION=database`, levanta también un worker:
+Si usas `QUEUE_CONNECTION=database`, inicia tambien un worker:
 
 ```bash
 php artisan queue:work
 ```
 
-Para ejecutar tareas programadas en local (incluye backup diario):
+## Colas, scheduler y backup
+
+El sistema programa un backup diario de base de datos mediante:
+
+```php
+Schedule::command('create-backup-database')->daily();
+```
+
+Para desarrollo local:
 
 ```bash
+# Ejecuta scheduler en modo worker local
 php artisan schedule:work
+
+# Backup manual
+php artisan create-backup-database
 ```
+
+Notas operativas:
+
+- El backup usa `mysqldump` y se guarda en `storage/backups`.
+- En Linux puedes usar `run-worker.sh` como base para un proceso persistente de colas.
 
 ## Credenciales iniciales
 
@@ -143,52 +164,66 @@ El seeder crea un usuario administrador:
 - Password: `12345678`
 - Rol: `administrador`
 
-Recomendación: cambiar credenciales al primer inicio.
+Recomendacion: cambia las credenciales en el primer inicio.
 
-## Comandos utiles
+## Scripts y comandos utiles
 
-```bash
-# Tests
-php artisan test
+| Comando | Descripcion |
+| --- | --- |
+| `npm run dev` | Inicia Vite en modo desarrollo. |
+| `npm run build` | Genera assets optimizados para produccion. |
+| `php artisan test` | Ejecuta pruebas automatizadas. |
+| `php artisan optimize:clear` | Limpia caches de framework. |
+| `php artisan queue:work` | Procesa jobs en cola. |
+| `php artisan schedule:work` | Ejecuta tareas programadas en local. |
+| `php artisan create-backup-database` | Genera backup SQL manual. |
+| `php artisan create-ubicacione` | Crea ubicacion por consola. |
 
-# Limpiar caches de framework
-php artisan optimize:clear
+## Estructura del proyecto
 
-# Crear backup manual de BD
-php artisan create-backup-database
-
-# Crear ubicación por consola
-php artisan create-ubicacione
+```text
+ventas-smart/
+├── app/
+│   ├── Console/Commands/      # Comandos personalizados (backup, ubicaciones)
+│   ├── Events/                # Eventos de dominio (compra/venta)
+│   ├── Listeners/             # Efectos desacoplados (kardex, inventario, caja, correo)
+│   ├── Jobs/                  # Tareas asincronas (excel, email)
+│   ├── Services/              # Logica reutilizable
+│   ├── Observers/             # Reglas automaticas en ciclo de vida de modelos
+│   └── Http/Controllers/      # Casos de uso HTTP por modulo
+├── database/
+│   ├── migrations/            # Esquema de datos
+│   └── seeders/               # Datos iniciales (roles, admin, catalogos base)
+├── resources/
+│   ├── views/                 # Blade views por modulo funcional
+│   ├── css/
+│   └── js/
+├── routes/
+│   ├── web.php                # Rutas web y modulos de administracion
+│   └── console.php            # Programacion de tareas (scheduler)
+├── tests/Feature/             # Pruebas funcionales actuales
+└── README.md
 ```
 
-## Arquitectura y comportamiento del dominio
+## Flujos de negocio
 
-El proyecto sigue un enfoque MVC con reglas de negocio distribuidas en:
-
-- Controladores HTTP para casos de uso.
-- Services para lógica reutilizable.
-- Observers para automatizar estados y atributos al crear/actualizar modelos.
-- Events + Listeners para desacoplar efectos de compras/ventas (kardex, inventario, caja, correo).
-- Jobs en cola para tareas costosas (Excel y envío de comprobante).
-
-Flujos relevantes:
-
-- Al registrar una venta:
-  - Se genera movimiento de caja.
-  - Se actualiza inventario y kardex.
-  - Se dispara envío de comprobante por email mediante job.
-- Al registrar una compra:
-  - Se actualiza inventario y kardex por evento.
-- Al cerrar caja:
-  - Se calcula saldo final automáticamente.
+1. Al registrar una venta:
+   - Se crea movimiento de caja.
+   - Se actualizan inventario y kardex por detalle.
+   - Se encola el envio del comprobante por email.
+2. Al registrar una compra:
+   - Se actualizan inventario y kardex mediante eventos/listeners.
+3. Al operar caja:
+   - Apertura, movimientos y cierre controlados desde modulo dedicado.
+   - El saldo de cierre se calcula segun movimientos registrados.
 
 ## Despliegue
 
-Checklist mínimo para producción:
+Checklist minimo para produccion:
 
-1. `APP_ENV=production` y `APP_DEBUG=false`.
-2. Configurar `APP_URL` con dominio final.
-3. Ejecutar:
+1. Configura `APP_ENV=production` y `APP_DEBUG=false`.
+2. Define `APP_URL` con el dominio final.
+3. Ejecuta build y optimizacion:
 
 ```bash
 composer install --no-dev --optimize-autoloader
@@ -197,28 +232,36 @@ php artisan migrate --force
 php artisan optimize
 ```
 
-4. Configurar un worker de colas persistente (Supervisor/systemd) para `php artisan queue:work`.
-5. Configurar cron para scheduler de Laravel:
+4. Configura un worker persistente para `php artisan queue:work` (Supervisor o systemd).
+5. Configura cron para scheduler:
 
 ```cron
 * * * * * cd /ruta/al/proyecto && php artisan schedule:run >> /dev/null 2>&1
 ```
 
-6. Verificar disponibilidad de `mysqldump` en el servidor si se usará el backup automático.
+6. Verifica que `mysqldump` este disponible en el servidor si usas backup automatico.
 
 ## Testing
 
-Suite actual de pruebas feature:
+La suite actual cubre pruebas feature de:
 
-- Páginas legales y página "Acerca de".
-- Flujo principal del módulo de categorías.
+- Paginas legales (privacidad y terminos).
+- Pagina "Acerca de" y metadatos SEO basicos.
+- Flujo principal del modulo de categorias.
 
-Ejecución:
+Ejecucion:
 
 ```bash
 php artisan test
 ```
 
+## Contribucion
+
+1. Crea una rama desde `main`.
+2. Implementa cambios siguiendo el estilo del proyecto.
+3. Ejecuta `php artisan test` antes de abrir el PR.
+4. Describe alcance funcional, riesgos y pasos de validacion en tu Pull Request.
+
 ## Licencia
 
-Este proyecto se distribuye bajo licencia [MIT](LICENSE).
+Distribuido bajo licencia [MIT](LICENSE).
